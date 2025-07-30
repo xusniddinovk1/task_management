@@ -15,7 +15,7 @@ class RegisterView(APIView):
             refresh_token = RefreshToken.for_user(user)
             access_token = refresh_token.access_token
             return Response({
-                'refresh': refresh_token,
-                'access': access_token,
+                'refresh': str(refresh_token),
+                'access': str(access_token),
             })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
