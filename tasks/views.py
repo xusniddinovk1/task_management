@@ -22,3 +22,16 @@ class TaskViewSet(viewsets.ModelViewSet):
         if not request.user.is_staff:
             return Response({'detail': 'Only admin can create tasks'}, status=status.HTTP_403_FORBIDDEN)
         return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            allowed_fields = {'status', 'priority'}
+            if not set(request.data.keys()).issubset(allowed_fields):
+                return Response({'detail': 'Faqat status va priority ni o‘zgartira olasiz.'},
+                                status=status.HTTP_403_FORBIDDEN)
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return Response({'detail': 'Only admin can destroy projects'}, status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)
