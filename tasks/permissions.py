@@ -14,3 +14,10 @@ class IsTaskAssigneeOrProjectMember(permissions.BasePermission):
         if request.user in obj.project.members.all():
             return True
         return False
+
+
+class IsProjectMember(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_staff:
+            return True
+        return request.user in obj.members.all()
